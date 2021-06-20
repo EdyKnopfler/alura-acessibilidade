@@ -1,0 +1,78 @@
+<!-- SE POSSÍVEL, JÁ INICIAR INDICANDO A SEMÂNTICA!
+     Este componente tem um comportamento de RadioButton. -->
+
+ <!--
+  PARA LEITOR DE TELA
+  role: papel semântico
+  aria-labelledby: id do label (o <label for="..."> é poderoso mas não funciona com tudo)
+    ==> insuficiente pois pode gerar ids repetidos quando há várias instâncias do componente
+    ==> usamos a biblioteca uuid para gerar ids dinâmicos
+  aria-label: outra alternativa seria colocar um label dinamicamente na div usando o próprio texto do label :)
+     <div [attr.aria-label]="label"> ...
+  aria-checked: true indica que é o selecionado
+  attr.<atributo>: setando atributo no Angular; se null o atributo não é inserido
+    ==> atenção com o "disabled", pois é a PRESENÇA do atributo que desabilita o componente
+  class.<classe>: setando  classe
+ -->
+
+<!--
+  PARA USO DO TECLADO
+  ==> Ao navegar com Tab, apenas o elemento ATIVO deve ganhar o foco
+      (o comportamento padrão dos buttons é ir pela ordem).
+  ==> A seleção dos "botões de rádio" deve ser feita com as setas.
+
+  1. Tab:
+  tabindex: 0: habilita foco em um componente não preparado para ganhar foco
+            -1: desabilita foco
+  Caso não tenha nada selecionado, focamos o Yes por padrão.
+
+  2. Setas
+  Colocamos a diretiva appKm no elemento pai, no caso a div (ver shared/directives/keyboard-manager.directive.ts)
+  e appKmItem nos elementos navegáveis, no caso os botões (ver shared/directives/keyboard-manager-item.directive.ts).
+  ==> (focused): definido na diretiva KeyboardManagerItem. Usamos para implementar o comportamento padrão do
+      RadioButton, que é ativar o elemento quando navegamos com setas.
+-->
+<div
+
+  role="radiogroup"
+  [attr.aria-labelledby]="id"
+  appKm
+
+  class="button-group"
+>
+  <label [attr.id]="id">{{ label }}</label>
+
+  <button
+
+    role="radio"
+    [attr.aria-checked]="value === options.YES"
+    [attr.tabindex]="!value || value === options.YES ? 0 : -1"
+    appKmItem
+    (focused)="activate(options.YES)"
+    [attr.disabled]="disabled ? disabled : null"
+    [class.disabled]="disabled"
+
+    type="button"
+    class="button yes"
+    [class.button-pressed]="value === options.YES"
+    (click)="activate(options.YES)">
+    Simmmmmmm
+  </button>
+
+  <button
+
+    role="radio"
+    [attr.aria-checked]="value === options.NO"
+    [attr.tabindex]="value === options.NO ? 0 : -1"
+    appKmItem
+    (focused)="activate(options.NO)"
+    [attr.disabled]="disabled ? disabled : null"
+    [class.disabled]="disabled"
+
+    type="button"
+    class="button no"
+    [class.button-pressed]="value === options.NO"
+    (click)="activate(options.NO)">
+    Nãããããão
+  </button>
+</div>
