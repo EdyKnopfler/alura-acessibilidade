@@ -1,3 +1,4 @@
+import { AlternativoModule } from './shared/components/alternativo/alternativo.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 
@@ -7,13 +8,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     FormsModule,  // É o que habilita o uso do ngModel
     YesNoButtonGroupModule,
+    AlternativoModule
   ],
   providers: [],
   bootstrap: [AppComponent],
